@@ -89,6 +89,11 @@ namespace MySCADA
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;
+                            case "Pos":
+                                tag.Value = Parent.S71500.Motor_1.Pos;
+                                tag.Quality = "GOOD";
+                                tag.TimeStamp = DateTime.Now;
+                                break;
                         }
                         break;
                     case "Motor_2":
@@ -121,6 +126,11 @@ namespace MySCADA
                                 break;
                             case "Fault":
                                 tag.Value = Parent.S71500.Motor_2.Fault;
+                                tag.Quality = "GOOD";
+                                tag.TimeStamp = DateTime.Now;
+                                break;
+                            case "Pos":
+                                tag.Value = Parent.S71500.Motor_2.Pos;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;

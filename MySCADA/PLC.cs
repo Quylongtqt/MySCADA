@@ -65,6 +65,7 @@ namespace MySCADA
         public byte aByte { get; set; }
         public bool Cmd { get; set; }
         public bool Fault { get; set; }
+        public byte aByte2 { get; set; }
+        public ushort Pos { get; set; }
     }
-
 }

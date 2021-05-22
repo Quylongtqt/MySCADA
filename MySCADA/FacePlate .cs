@@ -56,7 +56,7 @@ namespace MySCADA
             cbMode.Text = "MODE";
             cbMode.Size = new Size(80, 30);
             cbMode.Location = new Point(5, 5);
-
+            cbMode.TextChanged += cbMode_SelectedIndexChanged;
             // Buton Start
             btStart = new Button();
             btStart.Text = "START";
@@ -92,8 +92,6 @@ namespace MySCADA
 
             // Label RunFeedback
             lbRunfeedback = new Label();
-            
-
             // Picture RunFeedback
             pbRunFeedback = new PictureBox();
             Image imgDEFAULT = Image.FromFile("CMD_DEFAULT.png");
@@ -160,19 +158,71 @@ namespace MySCADA
         }
         private void btStop_MouseDown(object sender, EventArgs e)
         {
-
+            switch (base.Name)
+            {
+                case "Motor_1_Control_Panel":
+                    Parent.S71500.WriteBool("DB1.DBX2.1", true);
+                    break;
+                case "Motor_2_Control_Panel":
+                    Parent.S71500.WriteBool("DB2.DBX2.1", true);
+                    break;
+                case "Valve_Control_Panel":
+                    Parent.S71500.WriteBool("DB3.DBX2.1", true);
+                    break;
+                default:
+                    break;
+            }
         }
         private void btStop_MouseUp(object sender, EventArgs e)
         {
-
+            switch (base.Name)
+            {
+                case "Motor_1_Control_Panel":
+                    Parent.S71500.WriteBool("DB1.DBX2.1", false);
+                    break;
+                case "Motor_2_Control_Panel":
+                    Parent.S71500.WriteBool("DB2.DBX2.1", false);
+                    break;
+                case "Valve_Control_Panel":
+                    Parent.S71500.WriteBool("DB3.DBX2.1", false);
+                    break;
+                default:
+                    break;
+            }
         }
         private void btReset_MouseDown(object sender, EventArgs e)
         {
-
+            switch (base.Name)
+            {
+                case "Motor_1_Control_Panel":
+                    Parent.S71500.WriteBool("DB1.DBX2.5", true);
+                    break;
+                case "Motor_2_Control_Panel":
+                    Parent.S71500.WriteBool("DB2.DBX2.5", true);
+                    break;
+                case "Valve_Control_Panel":
+                    Parent.S71500.WriteBool("DB3.DBX2.5", true);
+                    break;
+                default:
+                    break;
+            }
         }
         private void btReset_MouseUp(object sender, EventArgs e)
         {
-
+            switch (base.Name)
+            {
+                case "Motor_1_Control_Panel":
+                    Parent.S71500.WriteBool("DB1.DBX2.5", false);
+                    break;
+                case "Motor_2_Control_Panel":
+                    Parent.S71500.WriteBool("DB2.DBX2.5", false);
+                    break;
+                case "Valve_Control_Panel":
+                    Parent.S71500.WriteBool("DB3.DBX2.5", false);
+                    break;
+                default:
+                    break;
+            }
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
@@ -192,13 +242,39 @@ namespace MySCADA
             mode = cbMode.Text;
             if (mode == "AUTO")
             {
-                //short value = 2; //Khai báo kiểu short ( tương đương int 16 bits của S7)
-                //thePLC.Write("DB3.DBD0", value);
+                short value = 2; //Khai báo kiểu short ( tương đương int 16 bits của S7)
+                switch (base.Name)
+                {
+                    case "Motor_1_Control_Panel":
+                        Parent.S71500.WriteInt("DB1.DBW0", value);
+                        break;
+                    case "Motor_2_Control_Panel":
+                        Parent.S71500.WriteInt("DB2.DBW1", value);
+                        break;
+                    case "Valve_Control_Panel":
+                        Parent.S71500.WriteInt("DB3.DBW2", value);
+                        break;
+                    default:
+                        break;
+                }
             }
             else if (mode == "MANUAL")
             {
-                //    short value = 1; //Khai báo kiểu short ( tương đương int 16 bits của S7)
-                //    thePLC.Write("DB3.DBD0", value);
+                short value = 1; //Khai báo kiểu short ( tương đương int 16 bits của S7)
+                switch (base.Name)
+                {
+                    case "Motor_1_Control_Panel":
+                        Parent.S71500.WriteInt("DB1.DBW0", value);
+                        break;
+                    case "Motor_2_Control_Panel":
+                        Parent.S71500.WriteInt("DB2.DBW1", value);
+                        break;
+                    case "Valve_Control_Panel":
+                        Parent.S71500.WriteInt("DB3.DBW2", value);
+                        break;
+                    default:
+                        break;
+                }
             }
         }
     }

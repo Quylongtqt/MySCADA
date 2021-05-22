@@ -47,6 +47,10 @@ namespace MySCADA
             Tag Motor_2_Fault = new Tag("Motor_2_Fault", "Motor_2.Fault");
             Tag Valve_Fault = new Tag("Valve_Fault", "Valve.Fault");
 
+            Tag Motor_1_Pos = new Tag("Motor_1_Pos", "Motor_1.Pos");
+            Tag Motor_2_Pos = new Tag("Motor_2_Pos", "Motor_2.Pos");
+            Tag Valve_Pos = new Tag("Valve_Pos", "Valve.Pos");
+
             Task1.AddTag(Motor_1_Mode);
             Task1.AddTag(Motor_2_Mode);
             Task1.AddTag(Valve_Mode);
@@ -70,6 +74,10 @@ namespace MySCADA
             Task1.AddTag(Motor_1_Fault);
             Task1.AddTag(Motor_2_Fault);
             Task1.AddTag(Valve_Fault);
+
+            Task1.AddTag(Motor_1_Pos);
+            Task1.AddTag(Motor_2_Pos);
+            Task1.AddTag(Valve_Pos);
 
             Root.AddTask(Task1);
             Root.RunTask("Task_1");

@@ -249,10 +249,10 @@ namespace MySCADA
                         Parent.S71500.WriteInt("DB1.DBW0", value);
                         break;
                     case "Motor_2_Control_Panel":
-                        Parent.S71500.WriteInt("DB2.DBW1", value);
+                        Parent.S71500.WriteInt("DB2.DBW0", value);
                         break;
                     case "Valve_Control_Panel":
-                        Parent.S71500.WriteInt("DB3.DBW2", value);
+                        Parent.S71500.WriteInt("DB3.DBW0", value);
                         break;
                     default:
                         break;
@@ -267,10 +267,10 @@ namespace MySCADA
                         Parent.S71500.WriteInt("DB1.DBW0", value);
                         break;
                     case "Motor_2_Control_Panel":
-                        Parent.S71500.WriteInt("DB2.DBW1", value);
+                        Parent.S71500.WriteInt("DB2.DBW0", value);
                         break;
                     case "Valve_Control_Panel":
-                        Parent.S71500.WriteInt("DB3.DBW2", value);
+                        Parent.S71500.WriteInt("DB3.DBW0", value);
                         break;
                     default:
                         break;

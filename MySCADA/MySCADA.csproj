@@ -53,7 +53,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FacePlate .cs">
+    <Compile Include="MotorPanel.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GraphicDisplay.cs">
@@ -70,8 +70,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FacePlate .resx">
-      <DependentUpon>FacePlate .cs</DependentUpon>
+    <EmbeddedResource Include="MotorPanel.resx">
+      <DependentUpon>MotorPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraphicDisplay.resx">
       <DependentUpon>GraphicDisplay.cs</DependentUpon>

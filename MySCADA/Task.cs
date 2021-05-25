@@ -136,36 +136,36 @@ namespace MySCADA
                                 break;
                         }
                         break;
-                    case "Valve":
+                    case "Valve_1":
                         switch (signal)
                         {
                             case "Mode":
-                                tag.Value = Parent.S71500.Valve.Mode;
+                                tag.Value = Parent.S71500.Valve_1.Mode;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;
                             case "Start":
-                                tag.Value = Parent.S71500.Valve.Start;
+                                tag.Value = Parent.S71500.Valve_1.Start;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;
                             case "Stop":
-                                tag.Value = Parent.S71500.Valve.Stop;
+                                tag.Value = Parent.S71500.Valve_1.Stop;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;
                             case "RunFeedback":
-                                tag.Value = Parent.S71500.Valve.RunFeedback;
+                                tag.Value = Parent.S71500.Valve_1.RunFeedback;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;
                             case "Reset":
-                                tag.Value = Parent.S71500.Valve.Reset;
+                                tag.Value = Parent.S71500.Valve_1.Reset;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;
                             case "Fault":
-                                tag.Value = Parent.S71500.Valve.Fault;
+                                tag.Value = Parent.S71500.Valve_1.Fault;
                                 tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
                                 break;

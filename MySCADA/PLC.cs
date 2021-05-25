@@ -14,7 +14,7 @@ namespace MySCADA
         Plc thePLC;
         public Device Motor_1 = new Device();
         public Device Motor_2 = new Device();
-        public Device Valve = new Device();
+        public Device Valve_1 = new Device();
         public SCADA Parent;
 
         public PLC()
@@ -40,7 +40,7 @@ namespace MySCADA
             {
                 thePLC.ReadClass(Motor_1, 1);
                 thePLC.ReadClass(Motor_2, 2);
-                thePLC.ReadClass(Valve, 3);
+                thePLC.ReadClass(Valve_1, 3);
             }
         }
         public void WriteBool(string address, bool value)

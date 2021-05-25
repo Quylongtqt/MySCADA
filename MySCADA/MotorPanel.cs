@@ -10,14 +10,13 @@ using System.Windows.Forms;
 
 namespace MySCADA
 {
-    public partial class FacePlate : Form
+    public partial class MotorPanel : Form
     {
-        string Name;
+        int ID;
         int Period;
         Timer UpdateTimer = null; //Windows form Timer
         public SCADA Parent;
         public Label lbMode;
-
         public Label lbRunfeedback;
         public PictureBox pbRunFeedback;
         Button btClose;
@@ -27,11 +26,11 @@ namespace MySCADA
         Button btReset;
         Image imgRUN = Image.FromFile("CMD_RUN.png");
         Image imgDEFAULT = Image.FromFile("CMD_DEFAULT.png");
-        //Button pbStop; 
-
-        public FacePlate(string name, int period)
+        
+        public MotorPanel(int id, int period)
         {
-            Name = name;
+            ID = id;
+            string Name = "Motor_" + ID + " Control Page";
             Period = period;
             base.Name = Name;
             base.WindowState = FormWindowState.Normal;
@@ -48,7 +47,6 @@ namespace MySCADA
             btClose.Location = new Point(210, 5);
             btClose.BackColor = Color.Red;
             btClose.Click += btClose_Click;
-
             this.SuspendLayout();
             // Combobox Device Mode
             cbMode = new ComboBox();
@@ -65,7 +63,6 @@ namespace MySCADA
             btStart.BackColor = Color.LightGray;
             btStart.MouseDown += btStart_MouseDown;
             btStart.MouseUp += btStart_MouseUp;
-
             // Buton Stop
             btStop = new Button();
             btStop.Text = "STOP";
@@ -89,7 +86,6 @@ namespace MySCADA
             lbMode.Font = new Font("Cambria", 12);
             lbMode.Size = new Size(20, 20);
             lbMode.Location = new Point(90, 5);
-
             // Label RunFeedback
             lbRunfeedback = new Label();
             // Picture RunFeedback
@@ -105,8 +101,7 @@ namespace MySCADA
             UpdateTimer.Tick += UpdateTimer_Tick;
             UpdateTimer.Start();
 
-
-            // Add to FacePlate
+            // Add to MotorPanel
             base.Controls.Add(lbMode);
             base.Controls.Add(btClose);
             base.Controls.Add(cbMode);
@@ -124,105 +119,27 @@ namespace MySCADA
         }
         private void btStart_MouseDown(object sender, EventArgs e)
         {
-            switch(base.Name)
-            {
-                case "Motor_1_Control_Panel":
-                    Parent.S71500.WriteBool("DB1.DBX2.0", true);
-                    break;
-                case "Motor_2_Control_Panel":
-                    Parent.S71500.WriteBool("DB2.DBX2.0", true);
-                    break;
-                case "Valve_Control_Panel":
-                    Parent.S71500.WriteBool("DB3.DBX2.0", true);
-                    break;
-                default:
-                    break;
-            }    
+           Parent.S71500.WriteBool($"DB{ID}.DBX2.0", true);             
         }
         private void btStart_MouseUp(object sender, EventArgs e)
-        {
-            switch (base.Name)
-            {
-                case "Motor_1_Control_Panel":
-                    Parent.S71500.WriteBool("DB1.DBX2.0", false);
-                    break;
-                case "Motor_2_Control_Panel":
-                    Parent.S71500.WriteBool("DB2.DBX2.0", false);
-                    break;
-                case "Valve_Control_Panel":
-                    Parent.S71500.WriteBool("DB3.DBX2.0", false);
-                    break;
-                default:
-                    break;
-            }
+        {            
+            Parent.S71500.WriteBool($"DB{ID}.DBX2.0", false); 
         }
         private void btStop_MouseDown(object sender, EventArgs e)
         {
-            switch (base.Name)
-            {
-                case "Motor_1_Control_Panel":
-                    Parent.S71500.WriteBool("DB1.DBX2.1", true);
-                    break;
-                case "Motor_2_Control_Panel":
-                    Parent.S71500.WriteBool("DB2.DBX2.1", true);
-                    break;
-                case "Valve_Control_Panel":
-                    Parent.S71500.WriteBool("DB3.DBX2.1", true);
-                    break;
-                default:
-                    break;
-            }
+            Parent.S71500.WriteBool($"DB{ID}.DBX2.1", true);
         }
         private void btStop_MouseUp(object sender, EventArgs e)
         {
-            switch (base.Name)
-            {
-                case "Motor_1_Control_Panel":
-                    Parent.S71500.WriteBool("DB1.DBX2.1", false);
-                    break;
-                case "Motor_2_Control_Panel":
-                    Parent.S71500.WriteBool("DB2.DBX2.1", false);
-                    break;
-                case "Valve_Control_Panel":
-                    Parent.S71500.WriteBool("DB3.DBX2.1", false);
-                    break;
-                default:
-                    break;
-            }
+            Parent.S71500.WriteBool($"DB{ID}.DBX2.1", false);
         }
         private void btReset_MouseDown(object sender, EventArgs e)
         {
-            switch (base.Name)
-            {
-                case "Motor_1_Control_Panel":
-                    Parent.S71500.WriteBool("DB1.DBX2.5", true);
-                    break;
-                case "Motor_2_Control_Panel":
-                    Parent.S71500.WriteBool("DB2.DBX2.5", true);
-                    break;
-                case "Valve_Control_Panel":
-                    Parent.S71500.WriteBool("DB3.DBX2.5", true);
-                    break;
-                default:
-                    break;
-            }
+            Parent.S71500.WriteBool($"DB{ID}.DBX2.5", true);
         }
         private void btReset_MouseUp(object sender, EventArgs e)
         {
-            switch (base.Name)
-            {
-                case "Motor_1_Control_Panel":
-                    Parent.S71500.WriteBool("DB1.DBX2.5", false);
-                    break;
-                case "Motor_2_Control_Panel":
-                    Parent.S71500.WriteBool("DB2.DBX2.5", false);
-                    break;
-                case "Valve_Control_Panel":
-                    Parent.S71500.WriteBool("DB3.DBX2.5", false);
-                    break;
-                default:
-                    break;
-            }
+            Parent.S71500.WriteBool($"DB{ID}.DBX2.5", false);
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
@@ -243,38 +160,12 @@ namespace MySCADA
             if (mode == "AUTO")
             {
                 short value = 2; //Khai báo kiểu short ( tương đương int 16 bits của S7)
-                switch (base.Name)
-                {
-                    case "Motor_1_Control_Panel":
-                        Parent.S71500.WriteInt("DB1.DBW0", value);
-                        break;
-                    case "Motor_2_Control_Panel":
-                        Parent.S71500.WriteInt("DB2.DBW0", value);
-                        break;
-                    case "Valve_Control_Panel":
-                        Parent.S71500.WriteInt("DB3.DBW0", value);
-                        break;
-                    default:
-                        break;
-                }
+                Parent.S71500.WriteInt($"DB{ID}.DBW0", value);
             }
             else if (mode == "MANUAL")
             {
                 short value = 1; //Khai báo kiểu short ( tương đương int 16 bits của S7)
-                switch (base.Name)
-                {
-                    case "Motor_1_Control_Panel":
-                        Parent.S71500.WriteInt("DB1.DBW0", value);
-                        break;
-                    case "Motor_2_Control_Panel":
-                        Parent.S71500.WriteInt("DB2.DBW0", value);
-                        break;
-                    case "Valve_Control_Panel":
-                        Parent.S71500.WriteInt("DB3.DBW0", value);
-                        break;
-                    default:
-                        break;
-                }
+                Parent.S71500.WriteInt($"DB{ID}.DBW0", value);
             }
         }
     }

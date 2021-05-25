@@ -19,20 +19,24 @@ namespace MySCADA
 
         PictureBox pbMotor_1;
         PictureBox pbMotor_2;
+        PictureBox pbValve_1;
         PictureBox pbMotor_1_RunFeedback;
         PictureBox pbMotor_2_RunFeedback;
+        PictureBox pbValve_1_RunFeedback;
 
         Label lbMotor_1_Mode = new Label();
         Label lbMotor_1_Runfeedback = new Label();
         Label lbMotor_2_Mode = new Label();
         Label lbMotor_2_Runfeedback = new Label();
-
-        FacePlate Motor_1_Control_Page = new FacePlate("Motor_1_Control_Panel", 100);
-        FacePlate Motor_2_Control_Page = new FacePlate("Motor_2_Control_Panel", 100);
-
+        Label lbValve_1_Mode = new Label();
+        Label lbValve_1_Runfeedback = new Label();
+        MotorPanel Motor_1_Control_Page = new MotorPanel(1, 100);
+        MotorPanel Motor_2_Control_Page = new MotorPanel(2, 100);
+        MotorPanel Valve_1_Control_Page = new MotorPanel(3, 100);
         // Image from file
         Image imgMotor_1 = Image.FromFile("Motor.bmp");
         Image imgMotor_2 = Image.FromFile("Motor.bmp");
+        Image imgValve_1 = Image.FromFile("Valve.png");
         Image imgFan_1 = Image.FromFile("fan_1.gif");
         Image imgFan_2 = Image.FromFile("fan_2.gif");
         Image imgFan_3 = Image.FromFile("fan_3.gif");
@@ -63,6 +67,13 @@ namespace MySCADA
             pbMotor_2.Location = new Point(350, 200);
             pbMotor_2.Click += pbMotor_2_Click;
 
+            pbValve_1 = new PictureBox();
+            pbValve_1.BackColor = Color.Transparent;
+            pbValve_1.BackgroundImage = imgValve_1;
+            pbValve_1.Size = imgValve_1.Size;
+            pbValve_1.Location = new Point(650, 200);
+            pbValve_1.Click += pbValve_1_Click;
+
             imgFan_1.RotateFlip(RotateFlipType.Rotate180FlipY);
             imgFan_2.RotateFlip(RotateFlipType.Rotate180FlipY);
             imgFan_3.RotateFlip(RotateFlipType.Rotate180FlipY);
@@ -80,14 +91,17 @@ namespace MySCADA
             pbMotor_2_RunFeedback.Size = imgFan_1.Size;
             pbMotor_2_RunFeedback.Location = new Point(510, 155);
 
+
             UpdateTimer = new Timer();
             UpdateTimer.Interval = Period;
             UpdateTimer.Tick += UpdateTimer_Tick;
 
             base.Controls.Add(pbMotor_1);
             base.Controls.Add(pbMotor_2);
+            base.Controls.Add(pbValve_1);
             base.Controls.Add(pbMotor_1_RunFeedback);
             base.Controls.Add(pbMotor_2_RunFeedback);
+            base.Controls.Add(pbValve_1_RunFeedback);
 
             UpdateTimer.Start();
         }
@@ -168,16 +182,28 @@ namespace MySCADA
                             break;
                     }
                 }
+                // Valve_1
+                tag = task.FindTag("Valve_1_Mode");
+                if (tag != null)
+                {
+                    lbValve_1_Mode.Text = tag.Value.ToString();
+                    Valve_1_Control_Page.lbMode.Text = lbValve_1_Mode.Text;
+                }
+                tag = task.FindTag("Valve_1_RunFeedback");
+                if (tag != null)
+                {
+                    lbValve_1_Runfeedback.Text = tag.Value.ToString();
+                    Valve_1_Control_Page.lbRunfeedback.Text = lbValve_1_Runfeedback.Text;
+                }
             }
 
         }
 
-       
         private void pbMotor_1_Click(object sender, EventArgs e)
         {
             if (Motor_1_Control_Page.IsDisposed)
             {
-                Motor_1_Control_Page = new FacePlate("Motor_1_Control_Panel", 100);
+                Motor_1_Control_Page = new MotorPanel(1, 100);
                 Motor_1_Control_Page.Parent = this.Parent;
             }
             Motor_1_Control_Page.Show();
@@ -187,13 +213,23 @@ namespace MySCADA
         {
             if (Motor_2_Control_Page.IsDisposed)
             {
-                Motor_2_Control_Page = new FacePlate("Motor_2_Control_Panel", 100);
+                Motor_2_Control_Page = new MotorPanel(2, 100);
                 Motor_2_Control_Page.Parent = this.Parent;
             }
             Motor_2_Control_Page.Show();
             Motor_2_Control_Page.Parent = this.Parent;
         }
-       
+        private void pbValve_1_Click(object sender, EventArgs e)
+        {
+            if (Valve_1_Control_Page.IsDisposed)
+            {
+                Valve_1_Control_Page = new MotorPanel(3, 100);
+                Valve_1_Control_Page.Parent = this.Parent;
+            }
+            Valve_1_Control_Page.Show();
+            Valve_1_Control_Page.Parent = this.Parent;
+        }
+        
         private void InitializeComponent()
         {
             this.SuspendLayout();

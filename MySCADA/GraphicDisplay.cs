@@ -22,7 +22,6 @@ namespace MySCADA
         PictureBox pbValve_1;
         PictureBox pbMotor_1_RunFeedback;
         PictureBox pbMotor_2_RunFeedback;
-        PictureBox pbValve_1_RunFeedback;
 
         Label lbMotor_1_Mode = new Label();
         Label lbMotor_1_Runfeedback = new Label();
@@ -32,7 +31,7 @@ namespace MySCADA
         Label lbValve_1_Runfeedback = new Label();
         MotorPanel Motor_1_Control_Page = new MotorPanel(1, 100);
         MotorPanel Motor_2_Control_Page = new MotorPanel(2, 100);
-        MotorPanel Valve_1_Control_Page = new MotorPanel(3, 100);
+        ValvePanel Valve_1_Control_Page = new ValvePanel(1, 3, 100);
         // Image from file
         Image imgMotor_1 = Image.FromFile("Motor.bmp");
         Image imgMotor_2 = Image.FromFile("Motor.bmp");
@@ -41,6 +40,8 @@ namespace MySCADA
         Image imgFan_2 = Image.FromFile("fan_2.gif");
         Image imgFan_3 = Image.FromFile("fan_3.gif");
         Image imgFan_4 = Image.FromFile("fan_4.gif");
+        Image imgValve_OPEN = Image.FromFile("Valve_OPEN.png");
+        Image imgValve_CLOSE = Image.FromFile("Valve_CLOSE.png");
         public GraphicDisplay(string name, int period)
         {
             Name = name;
@@ -101,7 +102,6 @@ namespace MySCADA
             base.Controls.Add(pbValve_1);
             base.Controls.Add(pbMotor_1_RunFeedback);
             base.Controls.Add(pbMotor_2_RunFeedback);
-            base.Controls.Add(pbValve_1_RunFeedback);
 
             UpdateTimer.Start();
         }
@@ -192,11 +192,19 @@ namespace MySCADA
                 tag = task.FindTag("Valve_1_RunFeedback");
                 if (tag != null)
                 {
+
                     lbValve_1_Runfeedback.Text = tag.Value.ToString();
+                    if(lbValve_1_Runfeedback.Text == "True")
+                    {
+                        pbValve_1.BackgroundImage = imgValve_OPEN;
+                    }
+                    if (lbValve_1_Runfeedback.Text == "False")
+                    {
+                        pbValve_1.BackgroundImage = imgValve_CLOSE;
+                    }
                     Valve_1_Control_Page.lbRunfeedback.Text = lbValve_1_Runfeedback.Text;
                 }
             }
-
         }
 
         private void pbMotor_1_Click(object sender, EventArgs e)
@@ -223,7 +231,7 @@ namespace MySCADA
         {
             if (Valve_1_Control_Page.IsDisposed)
             {
-                Valve_1_Control_Page = new MotorPanel(3, 100);
+                Valve_1_Control_Page = new ValvePanel(1, 3, 100);
                 Valve_1_Control_Page.Parent = this.Parent;
             }
             Valve_1_Control_Page.Show();

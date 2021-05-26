@@ -65,6 +65,12 @@
     <Compile Include="SCADA.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="ValvePanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ValvePanel.Designer.cs">
+      <DependentUpon>ValvePanel.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -75,6 +81,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GraphicDisplay.resx">
       <DependentUpon>GraphicDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValvePanel.resx">
+      <DependentUpon>ValvePanel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

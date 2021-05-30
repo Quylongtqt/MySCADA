@@ -17,6 +17,7 @@ namespace MySCADA
         public ArrayList Tags = new ArrayList();
         public SCADA Parent;
 
+        PictureBox pbTank;
         PictureBox pbMotor_1;
         PictureBox pbMotor_2;
         PictureBox pbValve_1;
@@ -33,70 +34,77 @@ namespace MySCADA
         MotorPanel Motor_2_Control_Page = new MotorPanel(2, 100);
         ValvePanel Valve_1_Control_Page = new ValvePanel(1, 3, 100);
         // Image from file
-        Image imgMotor_1 = Image.FromFile("Motor.bmp");
-        Image imgMotor_2 = Image.FromFile("Motor.bmp");
+        Image imgTank = Image.FromFile("Tank.png");
+        Image imgMotor_1 = Image.FromFile("Motor.png");
+        Image imgMotor_2 = Image.FromFile("Motor.png");
         Image imgValve_1 = Image.FromFile("Valve.png");
-        Image imgFan_1 = Image.FromFile("fan_1.gif");
-        Image imgFan_2 = Image.FromFile("fan_2.gif");
-        Image imgFan_3 = Image.FromFile("fan_3.gif");
-        Image imgFan_4 = Image.FromFile("fan_4.gif");
+        Image imgPipe_1 = Image.FromFile("Pipe_1.png");
+        Image imgPipe_2 = Image.FromFile("Pipe_2.png");
+        Image imgPipe_3 = Image.FromFile("Pipe_3.png");
         Image imgValve_OPEN = Image.FromFile("Valve_OPEN.png");
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
+        public ProgressBars.Basic.BasicProgressBar basicProgressBar1;
         Image imgValve_CLOSE = Image.FromFile("Valve_CLOSE.png");
         public GraphicDisplay(string name, int period)
         {
+            InitializeComponent();
             Name = name;
             Period = period;
             base.Name = Name;
             base.WindowState = FormWindowState.Normal;
             base.BackColor = Color.FromArgb(0, 95, 170);
             base.BackgroundImage = Image.FromFile("background.jpeg");
-            base.Size = new Size(1000, 500);
+            base.Size = new Size(1200, 800);
             base.Text = ("My SCADA");
             base.ControlBox = false;
+
+            pbTank = new PictureBox();
+            pbTank.BackColor = Color.Transparent;
+            pbTank.BackgroundImage = imgTank;
+            pbTank.Size = imgTank.Size;
+            pbTank.Location = new Point(300, 100);
 
             pbMotor_1 = new PictureBox();
             pbMotor_1.BackColor = Color.Transparent;
             pbMotor_1.BackgroundImage = imgMotor_1;
             pbMotor_1.Size = imgMotor_1.Size;
-            pbMotor_1.Location = new Point(100, 200);
+            pbMotor_1.Location = new Point(155, 552);
             pbMotor_1.Click += pbMotor_1_Click;
 
             pbMotor_2 = new PictureBox();
             pbMotor_2.BackColor = Color.Transparent;
             pbMotor_2.BackgroundImage = imgMotor_2;
             pbMotor_2.Size = imgMotor_2.Size;
-            pbMotor_2.Location = new Point(350, 200);
+            pbMotor_2.Location = new Point(155, 203);
             pbMotor_2.Click += pbMotor_2_Click;
 
             pbValve_1 = new PictureBox();
             pbValve_1.BackColor = Color.Transparent;
             pbValve_1.BackgroundImage = imgValve_1;
             pbValve_1.Size = imgValve_1.Size;
-            pbValve_1.Location = new Point(650, 200);
+            pbValve_1.Location = new Point(690, 520);
             pbValve_1.Click += pbValve_1_Click;
-
-            imgFan_1.RotateFlip(RotateFlipType.Rotate180FlipY);
-            imgFan_2.RotateFlip(RotateFlipType.Rotate180FlipY);
-            imgFan_3.RotateFlip(RotateFlipType.Rotate180FlipY);
-            imgFan_4.RotateFlip(RotateFlipType.Rotate180FlipY);
 
             pbMotor_1_RunFeedback = new PictureBox();
             pbMotor_1_RunFeedback.BackColor = Color.Transparent;
-            pbMotor_1_RunFeedback.BackgroundImage = imgFan_1;
-            pbMotor_1_RunFeedback.Size = imgFan_1.Size;
-            pbMotor_1_RunFeedback.Location = new Point(260, 155);
+            pbMotor_1_RunFeedback.BackgroundImage = imgPipe_1;
+            pbMotor_1_RunFeedback.Size = imgPipe_1.Size;
+            pbMotor_1_RunFeedback.Location = new Point(270, 590);
 
             pbMotor_2_RunFeedback = new PictureBox();
             pbMotor_2_RunFeedback.BackColor = Color.Transparent;
-            pbMotor_2_RunFeedback.BackgroundImage = imgFan_1;
-            pbMotor_2_RunFeedback.Size = imgFan_1.Size;
-            pbMotor_2_RunFeedback.Location = new Point(510, 155);
+            pbMotor_2_RunFeedback.BackgroundImage = imgPipe_1;
+            pbMotor_2_RunFeedback.Size = imgPipe_1.Size;
+            pbMotor_2_RunFeedback.Location = new Point(270, 240);
 
 
             UpdateTimer = new Timer();
             UpdateTimer.Interval = Period;
             UpdateTimer.Tick += UpdateTimer_Tick;
 
+            base.Controls.Add(pbTank);
             base.Controls.Add(pbMotor_1);
             base.Controls.Add(pbMotor_2);
             base.Controls.Add(pbValve_1);
@@ -131,19 +139,19 @@ namespace MySCADA
                     switch (Convert.ToInt16(tag.Value))
                     {
                         case 0:
-                             pbMotor_1_RunFeedback.BackgroundImage = imgFan_1;
+                             pbMotor_1_RunFeedback.BackgroundImage = imgPipe_2;
                             break;
                         case 1:
-                            pbMotor_1_RunFeedback.BackgroundImage = imgFan_1;
+                            pbMotor_1_RunFeedback.BackgroundImage = imgPipe_3;
                             break;
                         case 2:
-                            pbMotor_1_RunFeedback.BackgroundImage = imgFan_2;
+                            pbMotor_1_RunFeedback.BackgroundImage = imgPipe_2;
                             break;
                         case 3:
-                            pbMotor_1_RunFeedback.BackgroundImage = imgFan_3;
+                            pbMotor_1_RunFeedback.BackgroundImage = imgPipe_3;
                             break;
                         case 4:
-                            pbMotor_1_RunFeedback.BackgroundImage = imgFan_4;
+                            pbMotor_1_RunFeedback.BackgroundImage = imgPipe_2;
                             break;
                     }
                 }
@@ -166,19 +174,19 @@ namespace MySCADA
                     switch (Convert.ToInt16(tag.Value))
                     {
                         case 0:
-                            pbMotor_2_RunFeedback.BackgroundImage = imgFan_1;
+                            pbMotor_2_RunFeedback.BackgroundImage = imgPipe_2;
                             break;
                         case 1:
-                            pbMotor_2_RunFeedback.BackgroundImage = imgFan_1;
+                            pbMotor_2_RunFeedback.BackgroundImage = imgPipe_3;
                             break;
                         case 2:
-                            pbMotor_2_RunFeedback.BackgroundImage = imgFan_2;
+                            pbMotor_2_RunFeedback.BackgroundImage = imgPipe_2;
                             break;
                         case 3:
-                            pbMotor_2_RunFeedback.BackgroundImage = imgFan_3;
+                            pbMotor_2_RunFeedback.BackgroundImage = imgPipe_3;
                             break;
                         case 4:
-                            pbMotor_2_RunFeedback.BackgroundImage = imgFan_4;
+                            pbMotor_2_RunFeedback.BackgroundImage = imgPipe_2;
                             break;
                     }
                 }
@@ -240,12 +248,30 @@ namespace MySCADA
         
         private void InitializeComponent()
         {
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
+            this.basicProgressBar1 = new ProgressBars.Basic.BasicProgressBar();
             this.SuspendLayout();
+            // 
+            // basicProgressBar1
+            // 
+            this.basicProgressBar1.BackColor = System.Drawing.Color.DarkGray;
+            this.basicProgressBar1.Font = new System.Drawing.Font("Consolas", 10.25F);
+            this.basicProgressBar1.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.basicProgressBar1.Location = new System.Drawing.Point(590, 140);
+            this.basicProgressBar1.Name = "basicProgressBar1";
+            this.basicProgressBar1.Size = new System.Drawing.Size(30, 520);
+            this.basicProgressBar1.TabIndex = 0;
+            this.basicProgressBar1.Text = "basicProgressBar1";
+            // 
             // GraphicDisplay
+            // 
             this.ClientSize = new System.Drawing.Size(816, 552);
+            this.Controls.Add(this.basicProgressBar1);
             this.Name = "GraphicDisplay";
             this.ResumeLayout(false);
-        }
 
+        }
     }
 }

@@ -41,9 +41,14 @@ namespace MySCADA
         Image imgFan_3 = Image.FromFile("fan_3.gif");
         Image imgFan_4 = Image.FromFile("fan_4.gif");
         Image imgValve_OPEN = Image.FromFile("Valve_OPEN.png");
+        private System.ComponentModel.BackgroundWorker backgroundWorker1;
+        private System.ComponentModel.BackgroundWorker backgroundWorker2;
+        private System.ComponentModel.BackgroundWorker backgroundWorker3;
+        private ProgressBars.Basic.BasicProgressBar basicProgressBar1;
         Image imgValve_CLOSE = Image.FromFile("Valve_CLOSE.png");
         public GraphicDisplay(string name, int period)
         {
+            InitializeComponent();
             Name = name;
             Period = period;
             base.Name = Name;
@@ -240,11 +245,30 @@ namespace MySCADA
         
         private void InitializeComponent()
         {
+            this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
+            this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
+            this.basicProgressBar1 = new ProgressBars.Basic.BasicProgressBar();
             this.SuspendLayout();
+            // 
+            // basicProgressBar1
+            // 
+            this.basicProgressBar1.BackColor = System.Drawing.Color.DarkGray;
+            this.basicProgressBar1.Font = new System.Drawing.Font("Consolas", 10.25F);
+            this.basicProgressBar1.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.basicProgressBar1.Location = new System.Drawing.Point(434, 29);
+            this.basicProgressBar1.Name = "basicProgressBar1";
+            this.basicProgressBar1.Size = new System.Drawing.Size(30, 339);
+            this.basicProgressBar1.TabIndex = 0;
+            this.basicProgressBar1.Text = "basicProgressBar1";
+            // 
             // GraphicDisplay
+            // 
             this.ClientSize = new System.Drawing.Size(816, 552);
+            this.Controls.Add(this.basicProgressBar1);
             this.Name = "GraphicDisplay";
             this.ResumeLayout(false);
+
         }
 
     }

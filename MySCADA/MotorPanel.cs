@@ -39,12 +39,12 @@ namespace MySCADA
             base.Size = new Size(250, 250);
             base.Text = Name;
             base.ControlBox = false;
-
+            base.FormBorderStyle = FormBorderStyle.Fixed3D;
             // Buton Close X:
             btCloseX = new Button();
             btCloseX.Text = "X";
             btCloseX.Size = new Size(20, 20);
-            btCloseX.Location = new Point(210, 5);
+            btCloseX.Location = new Point(205, 5);
             btCloseX.BackColor = Color.Red;
             btCloseX.Click += btCloseX_Click;
             this.SuspendLayout();
@@ -75,7 +75,7 @@ namespace MySCADA
             btReset = new Button();
             btReset.Text = "RESET";
             btReset.Size = new Size(80, 30);
-            btReset.Location = new Point(150, 170);
+            btReset.Location = new Point(145, 170);
             btReset.BackColor = Color.LightGray;
             btReset.MouseDown += btReset_MouseDown;
             btReset.MouseUp += btReset_MouseUp;

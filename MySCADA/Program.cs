@@ -26,6 +26,7 @@ namespace MySCADA
             Tag Motor_1_Mode = new Tag("Motor_1_Mode","Motor_1.Mode");
             Tag Motor_2_Mode = new Tag("Motor_2_Mode", "Motor_2.Mode");
             Tag Valve_1_Mode = new Tag("Valve_1_Mode", "Valve_1.Mode");
+            Tag Tank_Level = new Tag("Tank_Level", "Tank.Level");
 
             Tag Motor_1_Start = new Tag("Motor_1_Start", "Motor_1.Start");
             Tag Motor_2_Start = new Tag("Motor_2_Start", "Motor_2.Start");
@@ -54,6 +55,7 @@ namespace MySCADA
             Task1.AddTag(Motor_1_Mode);
             Task1.AddTag(Motor_2_Mode);
             Task1.AddTag(Valve_1_Mode);
+            Task1.AddTag(Tank_Level);
 
             Task1.AddTag(Motor_1_Start);
             Task1.AddTag(Motor_2_Start);

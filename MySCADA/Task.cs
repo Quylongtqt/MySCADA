@@ -171,6 +171,16 @@ namespace MySCADA
                                 break;
                         }
                         break;
+                    case "Tank":
+                        switch (signal)
+                        {
+                            case "Level":
+                                tag.Value = Parent.S71500.Level;
+                                tag.Quality = "GOOD";
+                                tag.TimeStamp = DateTime.Now;
+                                break;
+                        }
+                        break;
 
                 }
             }

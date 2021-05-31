@@ -23,6 +23,8 @@ namespace MySCADA
         PictureBox pbValve_1;
         PictureBox pbMotor_1_RunFeedback;
         PictureBox pbMotor_2_RunFeedback;
+        Button btSTART;
+        Button btSTOP;
 
         Label lbMotor_1_Mode = new Label();
         Label lbMotor_1_Runfeedback = new Label();
@@ -45,7 +47,7 @@ namespace MySCADA
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
-        public ProgressBars.Basic.BasicProgressBar basicProgressBar1;
+        public ProgressBars.Basic.BasicProgressBar barLevel;
         Image imgValve_CLOSE = Image.FromFile("Valve_CLOSE.png");
         public GraphicDisplay(string name, int period)
         {
@@ -99,21 +101,55 @@ namespace MySCADA
             pbMotor_2_RunFeedback.Size = imgPipe_1.Size;
             pbMotor_2_RunFeedback.Location = new Point(270, 240);
 
+            // Buton START
+            btSTART = new Button();
+            btSTART.Text = "START";
+            btSTART.Size = new Size(80, 30);
+            btSTART.Location = new Point(50, 100);
+            btSTART.BackColor = Color.LightGray;
+            btSTART.MouseDown += btSTART_MouseDown;
+            btSTART.MouseUp += btSTART_MouseUp;
+            // Buton STOP
+            btSTOP = new Button();
+            btSTOP.Text = "STOP";
+            btSTOP.Size = new Size(80, 30);
+            btSTOP.Location = new Point(50, 150);
+            btSTOP.BackColor = Color.LightGray;
+            btSTOP.MouseDown += btSTOP_MouseDown;
+            btSTOP.MouseUp += btSTOP_MouseUp;
 
             UpdateTimer = new Timer();
             UpdateTimer.Interval = Period;
             UpdateTimer.Tick += UpdateTimer_Tick;
 
+            base.Controls.Add(btSTART);
+            base.Controls.Add(btSTOP);
             base.Controls.Add(pbTank);
             base.Controls.Add(pbMotor_1);
             base.Controls.Add(pbMotor_2);
             base.Controls.Add(pbValve_1);
             base.Controls.Add(pbMotor_1_RunFeedback);
             base.Controls.Add(pbMotor_2_RunFeedback);
-
             UpdateTimer.Start();
         }
-
+        //START
+        private void btSTART_MouseDown(object sender, EventArgs e)
+        {
+            Parent.S71500.WriteBool($"M0.0", true);
+        }
+        private void btSTART_MouseUp(object sender, EventArgs e)
+        {
+            Parent.S71500.WriteBool($"M0.0", false);
+        }
+        //STOP
+        private void btSTOP_MouseDown(object sender, EventArgs e)
+        {
+            Parent.S71500.WriteBool($"M0.1", true);
+        }
+        private void btSTOP_MouseUp(object sender, EventArgs e)
+        {
+            Parent.S71500.WriteBool($"M0.1", false);
+        }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             Task task = Parent.FindTask("Task_1");
@@ -212,6 +248,12 @@ namespace MySCADA
                     }
                     Valve_1_Control_Page.lbRunfeedback.Text = lbValve_1_Runfeedback.Text;
                 }
+                // Tank_level
+                tag = task.FindTag("Tank_Level");
+                if (tag != null)
+                {
+                    barLevel.Value = Convert.ToInt16(tag.Value);
+                }
             }
         }
 
@@ -251,24 +293,24 @@ namespace MySCADA
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
-            this.basicProgressBar1 = new ProgressBars.Basic.BasicProgressBar();
+            this.barLevel = new ProgressBars.Basic.BasicProgressBar();
             this.SuspendLayout();
             // 
-            // basicProgressBar1
+            // barLevel
             // 
-            this.basicProgressBar1.BackColor = System.Drawing.Color.DarkGray;
-            this.basicProgressBar1.Font = new System.Drawing.Font("Consolas", 10.25F);
-            this.basicProgressBar1.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.basicProgressBar1.Location = new System.Drawing.Point(590, 140);
-            this.basicProgressBar1.Name = "basicProgressBar1";
-            this.basicProgressBar1.Size = new System.Drawing.Size(30, 520);
-            this.basicProgressBar1.TabIndex = 0;
-            this.basicProgressBar1.Text = "basicProgressBar1";
+            this.barLevel.BackColor = System.Drawing.Color.DarkGray;
+            this.barLevel.Font = new System.Drawing.Font("Consolas", 10.25F);
+            this.barLevel.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.barLevel.Location = new System.Drawing.Point(590, 140);
+            this.barLevel.Name = "barLevel";
+            this.barLevel.Size = new System.Drawing.Size(30, 520);
+            this.barLevel.TabIndex = 0;
+            this.barLevel.Text = "barLevel";
             // 
             // GraphicDisplay
             // 
             this.ClientSize = new System.Drawing.Size(816, 552);
-            this.Controls.Add(this.basicProgressBar1);
+            this.Controls.Add(this.barLevel);
             this.Name = "GraphicDisplay";
             this.ResumeLayout(false);
 

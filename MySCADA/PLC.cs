@@ -15,6 +15,7 @@ namespace MySCADA
         public Device Motor_1 = new Device();
         public Device Motor_2 = new Device();
         public Device Valve_1 = new Device();
+        public short Level;
         public SCADA Parent;
 
         public PLC()
@@ -41,6 +42,9 @@ namespace MySCADA
                 thePLC.ReadClass(Motor_1, 1);
                 thePLC.ReadClass(Motor_2, 2);
                 thePLC.ReadClass(Valve_1, 3);
+                object obj  =  thePLC.Read("MW20");
+                Level = ((ushort)obj).ConvertToShort();
+                Console.WriteLine($"Level = {Level}");
             }
         }
         public void WriteBool(string address, bool value)

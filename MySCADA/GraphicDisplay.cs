@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Collections;
 using System.Drawing;
+using MindFusion.Charting;
 
 namespace MySCADA
 {
@@ -25,6 +26,8 @@ namespace MySCADA
         PictureBox pbMotor_2_RunFeedback;
         Button btSTART;
         Button btSTOP;
+        Button btALARM;
+        Button btVIEW;
 
         Label lbMotor_1_Mode = new Label();
         Label lbMotor_1_Runfeedback = new Label();
@@ -35,6 +38,7 @@ namespace MySCADA
         MotorPanel Motor_1_Control_Page = new MotorPanel(1, 100);
         MotorPanel Motor_2_Control_Page = new MotorPanel(2, 100);
         ValvePanel Valve_1_Control_Page = new ValvePanel(1, 3, 100);
+        ChartView Tank_Level_Page = new ChartView(1000);
         // Image from file
         Image imgTank = Image.FromFile("Tank.png");
         Image imgMotor_1 = Image.FromFile("Motor.png");
@@ -117,6 +121,20 @@ namespace MySCADA
             btSTOP.BackColor = Color.LightGray;
             btSTOP.MouseDown += btSTOP_MouseDown;
             btSTOP.MouseUp += btSTOP_MouseUp;
+            // Buton VIEW
+            btVIEW = new Button();
+            btVIEW.Text = "VIEW";
+            btVIEW.Size = new Size(80, 30);
+            btVIEW.Location = new Point(50, 200);
+            btVIEW.BackColor = Color.LightGray;
+            btVIEW.MouseDown += btVIEW_Click;
+            // Buton ALARM
+            btALARM = new Button();
+            btALARM.Text = "ALARM";
+            btALARM.Size = new Size(80, 30);
+            btALARM.Location = new Point(50, 250);
+            btALARM.BackColor = Color.LightGray;
+            btALARM.MouseDown += btALARM_Click;
 
             UpdateTimer = new Timer();
             UpdateTimer.Interval = Period;
@@ -125,6 +143,9 @@ namespace MySCADA
             base.Controls.Add(btSTART);
             base.Controls.Add(btSTOP);
             base.Controls.Add(pbTank);
+            base.Controls.Add(btVIEW);
+            base.Controls.Add(btALARM);
+
             base.Controls.Add(pbMotor_1);
             base.Controls.Add(pbMotor_2);
             base.Controls.Add(pbValve_1);
@@ -149,6 +170,23 @@ namespace MySCADA
         private void btSTOP_MouseUp(object sender, EventArgs e)
         {
             Parent.S71500.WriteBool($"M0.1", false);
+        }
+        //VIEW
+        private void btVIEW_Click(object sender, EventArgs e)
+        {
+            if (Tank_Level_Page.IsDisposed)
+            {
+
+                Tank_Level_Page = new ChartView(1000);
+                Tank_Level_Page.Parent = this.Parent;
+            }
+                Tank_Level_Page.Show();
+                Tank_Level_Page.Parent = this.Parent;
+        }
+        //ALARM
+        private void btALARM_Click(object sender, EventArgs e)
+        {
+            //
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
@@ -252,7 +290,9 @@ namespace MySCADA
                 tag = task.FindTag("Tank_Level");
                 if (tag != null)
                 {
-                    barLevel.Value = Convert.ToInt16(tag.Value);
+                    int val = Convert.ToInt16(tag.Value);
+                    barLevel.Value = val;
+                    Tank_Level_Page.TankLevel = val;
                 }
             }
         }

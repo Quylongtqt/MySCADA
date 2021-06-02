@@ -30,6 +30,8 @@ namespace MySCADA
         private void InitializeComponent()
         {
             this.LevelChart = new MindFusion.Charting.WinForms.LineChart();
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
             // 
             // LevelChart
@@ -56,18 +58,28 @@ namespace MySCADA
             this.LevelChart.TitleFontSize = null;
             this.LevelChart.TitleFontStyle = null;
             // 
+            // pictureBox1
+            // 
+            this.pictureBox1.Location = new System.Drawing.Point(528, 31);
+            this.pictureBox1.Name = "pictureBox1";
+            this.pictureBox1.Size = new System.Drawing.Size(260, 30);
+            this.pictureBox1.TabIndex = 4;
+            this.pictureBox1.TabStop = false;
+            // 
             // ChartView
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ControlBox = false;
+            this.Controls.Add(this.pictureBox1);
             this.Controls.Add(this.LevelChart);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Tank Level";
-            this.Text = "Tank Level";
+            this.Name = "ChartView";
             this.ShowIcon = false;
-            base.ControlBox = false;
+            this.Text = "Tank Level";
+            ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -75,5 +87,6 @@ namespace MySCADA
         #endregion
 
         private MindFusion.Charting.WinForms.LineChart LevelChart;
+        private System.Windows.Forms.PictureBox pictureBox1;
     }
 }

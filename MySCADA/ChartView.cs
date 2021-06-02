@@ -22,6 +22,7 @@ namespace MySCADA
         public int TankLevel;
         MyDateTimeSeries LineLevel;
         Button btCloseX;
+        Image img = Image.FromFile("image.png");
         public ChartView(int period)
         {
             InitializeComponent();
@@ -31,7 +32,7 @@ namespace MySCADA
             btCloseX = new Button();
             btCloseX.Text = "X";
             btCloseX.Size = new Size(20, 20);
-            btCloseX.Location = new Point(780, 5);
+            btCloseX.Location = new Point(775, 5);
             btCloseX.BackColor = Color.Red;
             btCloseX.Click += btCloseX_Click;
 
@@ -84,6 +85,7 @@ namespace MySCADA
             UpdateTimer.Tick += UpdateTimer_Tick;
             UpdateTimer.Start();
             base.Controls.Add(btCloseX);
+            pictureBox1.BackgroundImage = img;
         }
         private void btCloseX_Click(object sender, EventArgs e)
         {

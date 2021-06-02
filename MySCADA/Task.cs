@@ -176,8 +176,18 @@ namespace MySCADA
                         {
                             case "Level":
                                 tag.Value = Parent.S71500.Level;
-                                tag.Quality = "GOOD";
                                 tag.TimeStamp = DateTime.Now;
+                                int val = Convert.ToInt16(tag.Value);
+                                if (val < 10 )
+                                    tag.Quality = "LOW LOW";
+                                else if(val < 20)
+                                    tag.Quality = "LOW";
+                                else if (val > 90)
+                                    tag.Quality = "HIGH HIGH";
+                                else if (val > 80)
+                                    tag.Quality = "HIGH";
+                                else if (val <= 80)
+                                    tag.Quality = "GOOD";
                                 break;
                         }
                         break;

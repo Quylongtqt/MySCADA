@@ -39,6 +39,7 @@ namespace MySCADA
         MotorPanel Motor_2_Control_Page = new MotorPanel(2, 100);
         ValvePanel Valve_1_Control_Page = new ValvePanel(1, 3, 100);
         ChartView Tank_Level_Page = new ChartView(1000);
+        AlarmView Tank_Alarm_Page = new AlarmView(5000);
         // Image from file
         Image imgTank = Image.FromFile("Tank.png");
         Image imgMotor_1 = Image.FromFile("Motor.png");
@@ -65,7 +66,7 @@ namespace MySCADA
             base.Size = new Size(1200, 800);
             base.Text = ("My SCADA");
             base.ControlBox = false;
-
+            
             pbTank = new PictureBox();
             pbTank.BackColor = Color.Transparent;
             pbTank.BackgroundImage = imgTank;
@@ -186,7 +187,14 @@ namespace MySCADA
         //ALARM
         private void btALARM_Click(object sender, EventArgs e)
         {
-            //
+            if (Tank_Alarm_Page.IsDisposed)
+            {
+
+                Tank_Alarm_Page = new AlarmView(5000);
+                Tank_Alarm_Page.Parent = this.Parent;
+            }
+            Tank_Alarm_Page.Show();
+            Tank_Alarm_Page.Parent = this.Parent;
         }
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
@@ -293,6 +301,9 @@ namespace MySCADA
                     int val = Convert.ToInt16(tag.Value);
                     barLevel.Value = val;
                     Tank_Level_Page.TankLevel = val;
+                    Tank_Alarm_Page.TankLevel = val;
+                    Tank_Alarm_Page.LevelQuality = tag.Quality;
+                    Tank_Alarm_Page.Time = (tag.TimeStamp).ToString(@"yyyy\/MM\/dd\ hh\:mm\:ss");
                 }
             }
         }

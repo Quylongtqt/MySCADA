@@ -39,56 +39,56 @@ namespace MySCADA
             btCloseX = new Button();
             btCloseX.Text = "X";
             btCloseX.Size = new Size(20, 20);
-            btCloseX.Location = new Point(775, 5);
+            btCloseX.Location = new Point(420, 5);
             btCloseX.BackColor = Color.Red;
             btCloseX.Click += btCloseX_Click;
             base.ControlBox = false;
             base.SuspendLayout();
 
             textBox_0 = new TextBox();
-            textBox_0.Location = new System.Drawing.Point(50, 30);
-            textBox_0.Size = new System.Drawing.Size(715, 20);
-            textBox_0.Text = "------TimeStamp-------------Tank Level------Status-----";
+            textBox_0.Location = new System.Drawing.Point(20, 20);
+            textBox_0.Size = new System.Drawing.Size(400, 20);
+            textBox_0.Text = "---------TimeStamp-------------Tank Level---------Status-----";
 
             textBox_1 = new TextBox();
-            textBox_1.Location = new System.Drawing.Point(50, 50);
-            textBox_1.Size = new System.Drawing.Size(715, 20);
+            textBox_1.Location = new System.Drawing.Point(20, 40);
+            textBox_1.Size = new System.Drawing.Size(400, 20);
 
             textBox_2 = new TextBox();
-            textBox_2.Location = new System.Drawing.Point(50, 70);
-            textBox_2.Size = new System.Drawing.Size(715, 20);
+            textBox_2.Location = new System.Drawing.Point(20, 60);
+            textBox_2.Size = new System.Drawing.Size(400, 20);
 
             textBox_3 = new TextBox();
-            textBox_3.Location = new System.Drawing.Point(50, 90);
-            textBox_3.Size = new System.Drawing.Size(715, 20);
+            textBox_3.Location = new System.Drawing.Point(20, 80);
+            textBox_3.Size = new System.Drawing.Size(400, 20);
 
             textBox_4 = new TextBox();
-            textBox_4.Location = new System.Drawing.Point(50, 110);
-            textBox_4.Size = new System.Drawing.Size(715, 20);
+            textBox_4.Location = new System.Drawing.Point(20, 100);
+            textBox_4.Size = new System.Drawing.Size(400, 20);
 
             textBox_5 = new TextBox();
-            textBox_5.Location = new System.Drawing.Point(50, 130);
-            textBox_5.Size = new System.Drawing.Size(715, 20);
+            textBox_5.Location = new System.Drawing.Point(20, 120);
+            textBox_5.Size = new System.Drawing.Size(400, 20);
 
             textBox_6 = new TextBox();
-            textBox_6.Location = new System.Drawing.Point(50, 150);
-            textBox_6.Size = new System.Drawing.Size(715, 20);
+            textBox_6.Location = new System.Drawing.Point(20, 140);
+            textBox_6.Size = new System.Drawing.Size(400, 20);
 
             textBox_7 = new TextBox();
-            textBox_7.Location = new System.Drawing.Point(50, 170);
-            textBox_7.Size = new System.Drawing.Size(715, 20);
+            textBox_7.Location = new System.Drawing.Point(20, 160);
+            textBox_7.Size = new System.Drawing.Size(400, 20);
 
             textBox_8 = new TextBox();
-            textBox_8.Location = new System.Drawing.Point(50, 190);
-            textBox_8.Size = new System.Drawing.Size(715, 20);
+            textBox_8.Location = new System.Drawing.Point(20, 180);
+            textBox_8.Size = new System.Drawing.Size(400, 20);
 
             textBox_9 = new TextBox();
-            textBox_9.Location = new System.Drawing.Point(50, 210);
-            textBox_9.Size = new System.Drawing.Size(715, 20);
+            textBox_9.Location = new System.Drawing.Point(20, 200);
+            textBox_9.Size = new System.Drawing.Size(400, 20);
 
             textBox_10 = new TextBox();
-            textBox_10.Location = new System.Drawing.Point(50, 230);
-            textBox_10.Size = new System.Drawing.Size(715, 20);
+            textBox_10.Location = new System.Drawing.Point(20, 220);
+            textBox_10.Size = new System.Drawing.Size(400, 20);
 
             // Timer
             UpdateTimer = new Timer();
@@ -115,16 +115,39 @@ namespace MySCADA
         private void UpdateTimer_Tick(object sender, EventArgs e)
         {
             textBox_10.Text = textBox_9.Text;
+            textBox_10.BackColor = textBox_9.BackColor;
             textBox_9.Text = textBox_8.Text;
+            textBox_9.BackColor = textBox_8.BackColor;
             textBox_8.Text = textBox_7.Text;
+            textBox_8.BackColor = textBox_7.BackColor;
             textBox_7.Text = textBox_6.Text;
+            textBox_7.BackColor = textBox_6.BackColor;
             textBox_6.Text = textBox_5.Text;
+            textBox_6.BackColor = textBox_5.BackColor;
             textBox_5.Text = textBox_4.Text;
+            textBox_5.BackColor = textBox_4.BackColor;
             textBox_4.Text = textBox_3.Text;
+            textBox_4.BackColor = textBox_3.BackColor;
             textBox_3.Text = textBox_2.Text;
+            textBox_3.BackColor = textBox_2.BackColor;
             textBox_2.Text = textBox_1.Text;
-            textBox_1.Text = Time + "   " + TankLevel.ToString() + "    " + LevelQuality;
-            
+            textBox_2.BackColor = textBox_1.BackColor;
+            textBox_1.Text = Time + "   " + "   " + "   " + "   " + TankLevel.ToString() + "   " + "   " + "   " + "   " + "    " + LevelQuality;
+            switch(LevelQuality)
+            {
+                case "LOW LOW":
+                case "HIGH HIGH":
+                    textBox_1.BackColor = Color.Red;
+                    break;
+                case "LOW":
+                case "HIGH":
+                    textBox_1.BackColor = Color.Orange;
+                    break;
+                case "GOOD":
+                    textBox_1.BackColor = Color.LightGreen;
+                    break;
+            }
+                
         }
     }
     

@@ -39,7 +39,6 @@ namespace MySCADA
             this.LevelChart.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
-            this.LevelChart.Enabled = false;
             this.LevelChart.LegendTitle = "Legend";
             this.LevelChart.Location = new System.Drawing.Point(12, 31);
             this.LevelChart.Name = "LevelChart";

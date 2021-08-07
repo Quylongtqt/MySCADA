@@ -12,6 +12,7 @@
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -33,6 +34,18 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="MindFusion.Charting">
+      <HintPath>References\MindFusion.Charting.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Charting.WinForms">
+      <HintPath>References\MindFusion.Charting.WinForms.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Common">
+      <HintPath>References\MindFusion.Common.dll</HintPath>
+    </Reference>
+    <Reference Include="MindFusion.Gauges">
+      <HintPath>References\MindFusion.Gauges.dll</HintPath>
+    </Reference>
     <Reference Include="NetToolKit, Version=2.1.0.444, Culture=neutral, PublicKeyToken=5107b9c608443dcc" />
     <Reference Include="S7.Net">
       <HintPath>..\..\Android-Apps\S7 Communication\S7.Net.dll</HintPath>
@@ -45,6 +58,7 @@
     <Reference Include="System.Design" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Windows.Forms.DataVisualization" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,28 +67,59 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="FacePlate .cs">
+    <Compile Include="BasicProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="ChartView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ChartView.Designer.cs">
+      <DependentUpon>ChartView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="AlarmView.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AlarmView.Designer.cs">
+      <DependentUpon>AlarmView.cs</DependentUpon>
+    </Compile>
+    <Compile Include="MotorPanel.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GraphicDisplay.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="MyDateTimeSeries.cs" />
     <Compile Include="PLC.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SCADA.cs" />
     <Compile Include="Tag.cs" />
     <Compile Include="Task.cs" />
+    <Compile Include="ValvePanel.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ValvePanel.Designer.cs">
+      <DependentUpon>ValvePanel.cs</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="FacePlate .resx">
-      <DependentUpon>FacePlate .cs</DependentUpon>
+    <EmbeddedResource Include="AlarmView.resx">
+      <DependentUpon>AlarmView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ChartView.resx">
+      <DependentUpon>ChartView.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="MotorPanel.resx">
+      <DependentUpon>MotorPanel.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GraphicDisplay.resx">
       <DependentUpon>GraphicDisplay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ValvePanel.resx">
+      <DependentUpon>ValvePanel.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

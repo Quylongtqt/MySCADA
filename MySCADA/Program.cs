@@ -18,14 +18,18 @@ namespace MySCADA
             //Console.ReadKey();
 
             SCADA Root = new SCADA();
-            PLC plc = new PLC();
-            Root.AddPLC(plc);
+            PLC_S7 plc1 = new PLC_S7();
+            PLC_Modbus plc2 = new PLC_Modbus();
+            Root.AddPLC(plc1);
+            Root.AddPLC(plc2);
             // Task 1:
             Task Task1 = new Task("Task_1", 100); //update time 100ms
 
             Tag Motor_1_Mode = new Tag("Motor_1_Mode","Motor_1.Mode");
             Tag Motor_2_Mode = new Tag("Motor_2_Mode", "Motor_2.Mode");
             Tag Valve_1_Mode = new Tag("Valve_1_Mode", "Valve_1.Mode");
+            Tag Tank_Level = new Tag("Tank_Level", "Tank.Level");
+            Tag Tank_Status = new Tag("Tank_Status", "Tank.Status");
 
             Tag Motor_1_Start = new Tag("Motor_1_Start", "Motor_1.Start");
             Tag Motor_2_Start = new Tag("Motor_2_Start", "Motor_2.Start");
@@ -54,6 +58,7 @@ namespace MySCADA
             Task1.AddTag(Motor_1_Mode);
             Task1.AddTag(Motor_2_Mode);
             Task1.AddTag(Valve_1_Mode);
+            
 
             Task1.AddTag(Motor_1_Start);
             Task1.AddTag(Motor_2_Start);
@@ -78,6 +83,9 @@ namespace MySCADA
             Task1.AddTag(Motor_1_Pos);
             Task1.AddTag(Motor_2_Pos);
             Task1.AddTag(Valve_1_Pos);
+
+            Task1.AddTag(Tank_Level);
+            Task1.AddTag(Tank_Status);
 
             Root.AddTask(Task1);
             Root.RunTask("Task_1");

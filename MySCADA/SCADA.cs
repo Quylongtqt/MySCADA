@@ -10,12 +10,17 @@ namespace MySCADA
     public class SCADA
     {
         ArrayList Tasks = new ArrayList();
-        public PLC S71500;
-
-        public void AddPLC(PLC plc)
+        public PLC_S7 S71500;
+        public PLC_Modbus M340;
+        public void AddPLC(PLC_S7 plc)
         {
             plc.Parent = this;
             S71500 = plc;
+        }
+        public void AddPLC(PLC_Modbus plc)
+        { 
+            plc.Parent = this;
+            M340 = plc;
         }
         public void AddTask(Task task)
         {

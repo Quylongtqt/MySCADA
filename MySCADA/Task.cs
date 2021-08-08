@@ -171,6 +171,30 @@ namespace MySCADA
                                 break;
                         }
                         break;
+                    case "Tank":
+                        switch (signal)
+                        {
+                            case "Level":
+                                tag.Value = Parent.M340.Level;
+                                tag.TimeStamp = DateTime.Now;
+                                int val = Convert.ToInt16(tag.Value);
+                                if (val < 10)
+                                    tag.Quality = "LOW LOW";
+                                else if (val < 20)
+                                    tag.Quality = "LOW";
+                                else if (val > 90)
+                                    tag.Quality = "HIGH HIGH";
+                                else if (val > 80)
+                                    tag.Quality = "HIGH";
+                                else if (val <= 80)
+                                    tag.Quality = "GOOD";
+                                break;
+                            case "Status":
+                                tag.Value = Parent.M340.Status;
+                                tag.TimeStamp = DateTime.Now;
+                                break;
+                        }
+                        break;
 
                 }
             }

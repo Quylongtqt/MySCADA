@@ -22,6 +22,10 @@ namespace MySCADA
         PictureBox pbValve_1;
         PictureBox pbMotor_1_RunFeedback;
         PictureBox pbMotor_2_RunFeedback;
+        PictureBox pbTank_RunFeedback;
+        ComboBox cbTankMode;
+        Image imgRUN = Image.FromFile("CMD_RUN.png");
+        Image imgDEFAULT = Image.FromFile("CMD_DEFAULT.png");
 
         Label lbMotor_1_Mode = new Label();
         Label lbMotor_1_Runfeedback = new Label();
@@ -44,7 +48,7 @@ namespace MySCADA
         private System.ComponentModel.BackgroundWorker backgroundWorker1;
         private System.ComponentModel.BackgroundWorker backgroundWorker2;
         private System.ComponentModel.BackgroundWorker backgroundWorker3;
-        private ProgressBars.Basic.BasicProgressBar basicProgressBar1;
+        private ProgressBars.Basic.BasicProgressBar barLevel;
         Image imgValve_CLOSE = Image.FromFile("Valve_CLOSE.png");
         public GraphicDisplay(string name, int period)
         {
@@ -97,6 +101,21 @@ namespace MySCADA
             pbMotor_2_RunFeedback.Size = imgFan_1.Size;
             pbMotor_2_RunFeedback.Location = new Point(510, 155);
 
+            // Picture RunFeedback
+            pbTank_RunFeedback = new PictureBox();
+            Image imgDEFAULT = Image.FromFile("CMD_DEFAULT.png");
+            pbTank_RunFeedback.Size = imgDEFAULT.Size;
+            pbTank_RunFeedback.BackColor = Color.Transparent;
+            pbTank_RunFeedback.Location = new Point(780, 330);
+            pbTank_RunFeedback.BackgroundImage = imgDEFAULT;
+
+            // Combobox Tank Mode
+            cbTankMode = new ComboBox();
+            cbTankMode.Items.AddRange(new object[] { "MANUAL", "AUTO" });
+            cbTankMode.Text = "MODE";
+            cbTankMode.Size = new Size(80, 30);
+            cbTankMode.Location = new Point(780, 420);
+            cbTankMode.TextChanged += cbTankMode_SelectedIndexChanged;
 
             UpdateTimer = new Timer();
             UpdateTimer.Interval = Period;
@@ -107,6 +126,8 @@ namespace MySCADA
             base.Controls.Add(pbValve_1);
             base.Controls.Add(pbMotor_1_RunFeedback);
             base.Controls.Add(pbMotor_2_RunFeedback);
+            base.Controls.Add(pbTank_RunFeedback);
+            base.Controls.Add(cbTankMode);
 
             UpdateTimer.Start();
         }
@@ -197,7 +218,6 @@ namespace MySCADA
                 tag = task.FindTag("Valve_1_RunFeedback");
                 if (tag != null)
                 {
-
                     lbValve_1_Runfeedback.Text = tag.Value.ToString();
                     if(lbValve_1_Runfeedback.Text == "True")
                     {
@@ -208,6 +228,27 @@ namespace MySCADA
                         pbValve_1.BackgroundImage = imgValve_CLOSE;
                     }
                     Valve_1_Control_Page.lbRunfeedback.Text = lbValve_1_Runfeedback.Text;
+                }
+                // Tank_level
+                tag = task.FindTag("Tank_Level");
+                if (tag != null)
+                {
+                    int val = Convert.ToInt16(tag.Value);
+                    barLevel.Value = val;
+                }
+                // Tank_level
+                tag = task.FindTag("Tank_Status");
+                if (tag != null)
+                {
+                    int val = Convert.ToInt16(tag.Value);
+                    if (val == 1)
+                    {
+                        pbTank_RunFeedback.BackgroundImage = imgRUN;
+                    }
+                    else
+                    {
+                        pbTank_RunFeedback.BackgroundImage = imgDEFAULT;
+                    }
                 }
             }
         }
@@ -242,30 +283,44 @@ namespace MySCADA
             Valve_1_Control_Page.Show();
             Valve_1_Control_Page.Parent = this.Parent;
         }
-        
+        private void cbTankMode_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            string mode;
+            mode = cbTankMode.Text;
+            if (mode == "AUTO")
+            {
+                ushort value = 2;
+                Parent.M340.WriteInt(255, 100, value);
+            }
+            else if (mode == "MANUAL")
+            {
+                ushort value = 1;
+                Parent.M340.WriteInt(255, 100, value);
+            }
+        }
         private void InitializeComponent()
         {
             this.backgroundWorker1 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker2 = new System.ComponentModel.BackgroundWorker();
             this.backgroundWorker3 = new System.ComponentModel.BackgroundWorker();
-            this.basicProgressBar1 = new ProgressBars.Basic.BasicProgressBar();
+            this.barLevel = new ProgressBars.Basic.BasicProgressBar();
             this.SuspendLayout();
             // 
-            // basicProgressBar1
+            // barLevel
             // 
-            this.basicProgressBar1.BackColor = System.Drawing.Color.DarkGray;
-            this.basicProgressBar1.Font = new System.Drawing.Font("Consolas", 10.25F);
-            this.basicProgressBar1.ForeColor = System.Drawing.Color.DodgerBlue;
-            this.basicProgressBar1.Location = new System.Drawing.Point(434, 29);
-            this.basicProgressBar1.Name = "basicProgressBar1";
-            this.basicProgressBar1.Size = new System.Drawing.Size(30, 339);
-            this.basicProgressBar1.TabIndex = 0;
-            this.basicProgressBar1.Text = "basicProgressBar1";
+            this.barLevel.BackColor = System.Drawing.Color.DarkGray;
+            this.barLevel.Font = new System.Drawing.Font("Consolas", 10.25F);
+            this.barLevel.ForeColor = System.Drawing.Color.DodgerBlue;
+            this.barLevel.Location = new System.Drawing.Point(867, 49);
+            this.barLevel.Name = "barLevel";
+            this.barLevel.Size = new System.Drawing.Size(30, 339);
+            this.barLevel.TabIndex = 0;
+            this.barLevel.Text = "barLevel";
             // 
             // GraphicDisplay
             // 
-            this.ClientSize = new System.Drawing.Size(816, 552);
-            this.Controls.Add(this.basicProgressBar1);
+            this.ClientSize = new System.Drawing.Size(963, 552);
+            this.Controls.Add(this.barLevel);
             this.Name = "GraphicDisplay";
             this.ResumeLayout(false);
 
